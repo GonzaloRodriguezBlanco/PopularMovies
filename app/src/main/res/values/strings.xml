@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Popular Movies</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="error_message_connection_unavailable">Connection unavailable.</string>
+    <string name="button_retry">Retry</string>
+    <string name="error_message_api_key">First you should set a valid api key in TheMovieDbWebservice.API_KEY_V3</string>
+    <string name="movie_poster_image_content_description">Movie Poster</string>
 </resources>
