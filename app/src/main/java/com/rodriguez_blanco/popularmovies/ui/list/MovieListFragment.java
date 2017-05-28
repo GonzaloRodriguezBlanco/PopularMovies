@@ -2,7 +2,7 @@
  * Copyright (C) 2017 Gonzalo Rodriguez Blanco
  */
 
-package com.rodriguez_blanco.popularmovies.ui;
+package com.rodriguez_blanco.popularmovies.ui.list;
 
 import android.arch.lifecycle.LifecycleFragment;
 import android.content.Context;
@@ -33,10 +33,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import dagger.android.support.AndroidSupportInjection;
-import timber.log.Timber;
 
 /**
- * A placeholder fragment containing a simple view.
+ * Fragment containing a movie poster list
  */
 public class MovieListFragment extends LifecycleFragment implements MovieListAdapter.MovieListAdapterOnClickHandler {
     private static final int DEFAULT_SPAN_COUNT = 2;
@@ -60,6 +59,12 @@ public class MovieListFragment extends LifecycleFragment implements MovieListAda
 
     int spanCount = DEFAULT_SPAN_COUNT;
 
+    private MovieListListener mMovieListListener;
+
+    public interface MovieListListener {
+        void onMovieClicked(final String movieId);
+    }
+
     public MovieListFragment() {
     }
 
@@ -67,6 +72,12 @@ public class MovieListFragment extends LifecycleFragment implements MovieListAda
     public void onAttach(Context context) {
         AndroidSupportInjection.inject(this);
         super.onAttach(context);
+        try {
+            mMovieListListener = (MovieListListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement MovieListListener");
+        }
     }
 
     @Override
@@ -92,36 +103,6 @@ public class MovieListFragment extends LifecycleFragment implements MovieListAda
         unbinder = ButterKnife.bind(this, view);
 
         return view;
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.sort_order_menu, menu);
-
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int itemThatWasClickedId = item.getItemId();
-        switch (itemThatWasClickedId) {
-            case R.id.action_most_popular:
-                showLoadingIndicator();
-                mViewModel.getPopularMovies();
-                Toast.makeText(getActivity(), "Most popular", Toast.LENGTH_SHORT).show();
-
-                return true;
-
-            case R.id.action_top_rated:
-                showLoadingIndicator();
-                mViewModel.getTopRatedMovies();
-                Toast.makeText(getActivity(), "Top rated", Toast.LENGTH_SHORT).show();
-
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     @Override
@@ -184,6 +165,36 @@ public class MovieListFragment extends LifecycleFragment implements MovieListAda
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.sort_order_menu, menu);
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemThatWasClickedId = item.getItemId();
+        switch (itemThatWasClickedId) {
+            case R.id.action_most_popular:
+                showLoadingIndicator();
+                mViewModel.getPopularMovies();
+                Toast.makeText(getActivity(), "Most popular", Toast.LENGTH_SHORT).show();
+
+                return true;
+
+            case R.id.action_top_rated:
+                showLoadingIndicator();
+                mViewModel.getTopRatedMovies();
+                Toast.makeText(getActivity(), "Top rated", Toast.LENGTH_SHORT).show();
+
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
@@ -213,7 +224,7 @@ public class MovieListFragment extends LifecycleFragment implements MovieListAda
 
     @Override
     public void onClick(String movieId) {
-        Timber.d("Movie Id: %s", movieId);
+        mMovieListListener.onMovieClicked(movieId);
     }
 
 }

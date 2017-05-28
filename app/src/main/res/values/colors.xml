@@ -1,6 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">@color/materialDesignGrey800</color>
+    <color name="colorPrimaryDark">@color/materialDesignGrey900</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="colorWhiteOpacity100">#FFFFFFFF</color>
+
+    <!-- Teal -->
+    <color name="materialDesignTeal50">#E0F2F1</color><!-- Text contrast color BLACK -->
+    <color name="materialDesignTeal100">#B2DFDB</color><!-- Text contrast color BLACK -->
+    <color name="materialDesignTeal200">#80CBC4</color><!-- Text contrast color BLACK -->
+    <color name="materialDesignTeal300">#4DB6AC</color><!-- Text contrast color BLACK -->
+    <color name="materialDesignTeal400">#26A69A</color><!-- Text contrast color BLACK -->
+    <color name="materialDesignTeal500">#009688</color><!-- Text contrast color WHITE -->
+    <color name="materialDesignTeal600">#00897B</color><!-- Text contrast color WHITE -->
+    <color name="materialDesignTeal700">#00796B</color><!-- Text contrast color WHITE -->
+    <color name="materialDesignTeal800">#00695C</color><!-- Text contrast color WHITE -->
+    <color name="materialDesignTeal900">#004D40</color><!-- Text contrast color WHITE -->
+
+    <color name="materialDesignTealAccent100">#A7FFEB</color><!-- Text contrast color BLACK -->
+    <color name="materialDesignTealAccent200">#64FFDA</color><!-- Text contrast color BLACK -->
+    <color name="materialDesignTealAccent400">#1DE9B6</color><!-- Text contrast color BLACK -->
+    <color name="materialDesignTealAccent700">#00BFA5</color><!-- Text contrast color BLACK -->
+
+    <!-- Grey -->
+    <color name="materialDesignGrey50">#FAFAFA</color><!-- Text contrast color BLACK -->
+    <color name="materialDesignGrey100">#F5F5F5</color><!-- Text contrast color BLACK -->
+    <color name="materialDesignGrey200">#EEEEEE</color><!-- Text contrast color BLACK -->
+    <color name="materialDesignGrey300">#E0E0E0</color><!-- Text contrast color BLACK -->
+    <color name="materialDesignGrey400">#BDBDBD</color><!-- Text contrast color BLACK -->
+    <color name="materialDesignGrey500">#9E9E9E</color><!-- Text contrast color BLACK -->
+    <color name="materialDesignGrey600">#757575</color><!-- Text contrast color WHITE -->
+    <color name="materialDesignGrey700">#616161</color><!-- Text contrast color WHITE -->
+    <color name="materialDesignGrey800">#424242</color><!-- Text contrast color WHITE -->
+    <color name="materialDesignGrey900">#212121</color><!-- Text contrast color WHITE -->
 </resources>

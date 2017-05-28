@@ -2,7 +2,7 @@
  * Copyright (C) 2017 Gonzalo Rodriguez Blanco
  */
 
-package com.rodriguez_blanco.popularmovies.ui;
+package com.rodriguez_blanco.popularmovies.ui.list;
 
 import android.content.Context;
 import android.net.Uri;

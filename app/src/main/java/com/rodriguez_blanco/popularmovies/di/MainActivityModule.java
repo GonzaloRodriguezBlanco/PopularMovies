@@ -12,6 +12,6 @@ import dagger.android.ContributesAndroidInjector;
 @Module
 public abstract class MainActivityModule {
 
-    @ContributesAndroidInjector(modules = FragmentsModule.class)
+    @ContributesAndroidInjector(modules = MovieListFragmentsModule.class)
     abstract MainActivity contributeMainActivityInjector();
 }

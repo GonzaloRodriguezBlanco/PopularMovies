@@ -19,7 +19,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 class ApplicationModule {
 
-
     @Singleton
     @Provides
     OkHttpClient provideOkHtppClient() {

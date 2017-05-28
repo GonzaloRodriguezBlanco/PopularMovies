@@ -24,7 +24,7 @@ public class MovieRepository {
     private TheMovieDbWebservice mTheMovieDbWebservice;
     private int page = 1;
 
-    final MutableLiveData<List<Movie>> data = new MutableLiveData<>();
+    final MutableLiveData<List<Movie>> listData = new MutableLiveData<>();
 
     @Inject
     public MovieRepository(TheMovieDbWebservice theMovieDbWebservice) {
@@ -38,7 +38,7 @@ public class MovieRepository {
                         page,
                         null)
                 .enqueue(getMoviesCallback);
-        return data;
+        return listData;
     }
 
     public LiveData<List<Movie>> getTopRatedMovies() {
@@ -48,6 +48,33 @@ public class MovieRepository {
                         page,
                         null)
                 .enqueue(getMoviesCallback);
+        return listData;
+    }
+
+    public LiveData<Movie> getMovie(String movieId) {
+        final MutableLiveData<Movie> data = new MutableLiveData<>();
+        mTheMovieDbWebservice
+                .getDetails(movieId,
+                        TheMovieDbWebservice.API_KEY_V3)
+                .enqueue(new Callback<Movie>() {
+                    @Override
+                    public void onResponse(Call<Movie> call, Response<Movie> response) {
+                        boolean isSuccesful = response.isSuccessful();
+                        int code = response.code();
+                        if (isSuccesful){
+                            Movie movieResponse = response.body();
+
+                            data.setValue(movieResponse);
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<Movie> call, Throwable t) {
+                        Timber.e(t, t.getMessage());
+                        data.setValue(null);
+                    }
+                });
         return data;
     }
 
@@ -63,14 +90,14 @@ public class MovieRepository {
                     page = getPopularMoviesResponse.getPage();
                 }
                 List<Movie> movies = getPopularMoviesResponse.getResults();
-                data.setValue(movies);
+                listData.setValue(movies);
             }
         }
 
         @Override
         public void onFailure(Call<GetPopularMoviesResponse> call, Throwable t) {
             Timber.e(t, t.getMessage());
-            data.setValue(null);
+            listData.setValue(null);
         }
     };
 }
