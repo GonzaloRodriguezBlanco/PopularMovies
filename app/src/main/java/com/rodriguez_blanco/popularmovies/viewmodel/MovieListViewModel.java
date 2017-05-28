@@ -13,7 +13,9 @@ import com.rodriguez_blanco.popularmovies.repository.MovieRepository;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
+@Singleton
 public class MovieListViewModel extends ViewModel {
     private LiveData<List<Movie>> mMovies;
     private MovieRepository mMovieRepository;
@@ -24,13 +26,21 @@ public class MovieListViewModel extends ViewModel {
     }
 
     public void init() {
-        if (this.mMovies != null) {
-            return;
+        if (mMovies == null) {
+            getPopularMovies();
         }
-        mMovies = mMovieRepository.getPopularMovies();
     }
 
     public LiveData<List<Movie>> getMovies() {
         return  mMovies;
     }
+
+    public void getPopularMovies() {
+        mMovies = mMovieRepository.getPopularMovies();
+    }
+
+    public void getTopRatedMovies() {
+        mMovies = mMovieRepository.getTopRatedMovies();
+    }
+
 }

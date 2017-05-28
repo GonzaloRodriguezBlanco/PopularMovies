@@ -11,10 +11,14 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.rodriguez_blanco.popularmovies.R;
 import com.rodriguez_blanco.popularmovies.api.TheMovieDbWebservice;
@@ -69,6 +73,7 @@ public class MovieListFragment extends LifecycleFragment implements MovieListAda
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initializeColumnCountForGrid();
+        setHasOptionsMenu(true);
     }
 
     private void initializeColumnCountForGrid() {
@@ -87,6 +92,36 @@ public class MovieListFragment extends LifecycleFragment implements MovieListAda
         unbinder = ButterKnife.bind(this, view);
 
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.sort_order_menu, menu);
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemThatWasClickedId = item.getItemId();
+        switch (itemThatWasClickedId) {
+            case R.id.action_most_popular:
+                showLoadingIndicator();
+                mViewModel.getPopularMovies();
+                Toast.makeText(getActivity(), "Most popular", Toast.LENGTH_SHORT).show();
+
+                return true;
+
+            case R.id.action_top_rated:
+                showLoadingIndicator();
+                mViewModel.getTopRatedMovies();
+                Toast.makeText(getActivity(), "Top rated", Toast.LENGTH_SHORT).show();
+
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override

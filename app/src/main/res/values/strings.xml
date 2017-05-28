@@ -6,4 +6,6 @@
     <string name="button_retry">Retry</string>
     <string name="error_message_api_key">First you should set a valid api key in TheMovieDbWebservice.API_KEY_V3</string>
     <string name="movie_poster_image_content_description">Movie Poster</string>
+    <string name="most_popular">Most Popular</string>
+    <string name="top_rated">Top Rated</string>
 </resources>

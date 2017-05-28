@@ -23,6 +23,12 @@ public interface TheMovieDbWebservice {
                                            @Query("page") Integer page,
                                            @Query("region") String region);
 
+    @GET(API_VERSION + "/movie/top_rated")
+    Call<GetPopularMoviesResponse> getTopRatedMovies(@Query("api_key") String api_key,
+                                           @Query("language") String language,
+                                           @Query("page") Integer page,
+                                           @Query("region") String region);
+
     @GET(API_VERSION + "/configuration")
     Call<Configuration> getConfiguration(@Query("api_key") String api_key);
 }
