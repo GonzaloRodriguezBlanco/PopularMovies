@@ -141,10 +141,21 @@ public class MovieListFragment extends LifecycleFragment implements MovieListAda
             showLoadingIndicator();
             mViewModel.init();
             mViewModel.getMovies().observe(this, movies -> {
-                mMovieListAdapter.setMoviesData(movies);
-                hideLoadingIndicator();
+                if (movies == null) {
+                    showUnknownError();
+                } else {
+                    mMovieListAdapter.setMoviesData(movies);
+                    hideLoadingIndicator();
+                }
+
             });
         }
+    }
+
+    private void showUnknownError() {
+        hideLoadingIndicator();
+        mErrorMessageTextView.setText(R.string.error_message_unknown_error);
+        showErrorDisplay();
     }
 
     private void showConnectionError() {

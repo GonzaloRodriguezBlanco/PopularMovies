@@ -8,4 +8,5 @@
     <string name="movie_poster_image_content_description">Movie Poster</string>
     <string name="most_popular">Most Popular</string>
     <string name="top_rated">Top Rated</string>
+    <string name="error_message_unknown_error">Something has happen. Try again.</string>
 </resources>

@@ -69,8 +69,8 @@ public class MovieRepository {
 
         @Override
         public void onFailure(Call<GetPopularMoviesResponse> call, Throwable t) {
-            Timber.d("FAILED!!!");
-            throw new RuntimeException(t.getMessage());
+            Timber.e(t, t.getMessage());
+            data.setValue(null);
         }
     };
 }
