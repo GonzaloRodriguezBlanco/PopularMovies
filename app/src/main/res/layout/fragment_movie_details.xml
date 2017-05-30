@@ -16,7 +16,7 @@
             android:id="@+id/tv_original_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
+            android:padding="@dimen/default_padding"
             style="@style/Base.TextAppearance.AppCompat.Display1"
             android:background="@color/materialDesignTeal500"
             android:textColor="@color/colorWhiteOpacity100" />
@@ -24,9 +24,9 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:paddingRight="16dp"
-            android:paddingLeft="16dp" >
+            android:layout_marginTop="@dimen/details_content_margin_top"
+            android:paddingRight="@dimen/default_padding"
+            android:paddingLeft="@dimen/default_padding" >
 
             <ImageView
                 android:id="@+id/iv_movie_poster_thumbnail"
@@ -40,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_marginLeft="16dp"
+                android:layout_marginLeft="@dimen/default_margin"
                 android:layout_toRightOf="@id/iv_movie_poster_thumbnail"
                 style="@style/TextAppearance.AppCompat.Medium" />
 
@@ -49,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_release_date"
-                android:layout_marginLeft="16dp"
+                android:layout_marginLeft="@dimen/default_margin"
                 android:layout_toRightOf="@id/iv_movie_poster_thumbnail"
                 style="@style/TextAppearance.AppCompat.Small" />
 
@@ -57,7 +57,7 @@
                 android:id="@+id/tv_plot_synopsis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="16dp"
+                android:paddingTop="@dimen/default_padding"
                 android:layout_below="@id/iv_movie_poster_thumbnail"
                 style="@style/TextAppearance.AppCompat.Small" />
 
@@ -65,8 +65,8 @@
 
         <ProgressBar
             android:id="@+id/pb_loading_indicator"
-            android:layout_height="42dp"
-            android:layout_width="42dp"
+            android:layout_height="@dimen/progress_bar_dimens"
+            android:layout_width="@dimen/progress_bar_dimens"
             android:layout_gravity="center"
             android:visibility="invisible" />
 
