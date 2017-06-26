@@ -5,6 +5,7 @@
 package com.rodriguez_blanco.popularmovies.viewmodel;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.rodriguez_blanco.popularmovies.domain.Movie;
@@ -43,4 +44,10 @@ public class MovieListViewModel extends ViewModel {
         mMovies = mMovieRepository.getTopRatedMovies();
     }
 
+    public void setFavoritesMovies(List<Movie> favoriteMovies) {
+        final MutableLiveData<List<Movie>> movies = new MutableLiveData<>();
+        movies.setValue(favoriteMovies);
+
+        mMovies = movies;
+    }
 }

@@ -13,7 +13,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface TheMovieDbWebservice {
-    String API_KEY_V3 = "CHANGE_ME";
+    String API_KEY_V3 = "a2d21c8e70ddaebed802c47362fa50a6";
     String API_VERSION = "/3";
 
     String IMAGES_BASE_URL = "https://image.tmdb.org/t/p/";
@@ -37,4 +37,10 @@ public interface TheMovieDbWebservice {
 
     @GET(API_VERSION + "/movie/{movie_id}")
     Call<Movie> getDetails(@Path("movie_id") String movieId, @Query("api_key") String api_key);
+
+    @GET(API_VERSION + "/movie/{movie_id}/videos")
+    Call<GetVideosResponse> getVideos(@Path("movie_id") String movieId, @Query("api_key") String api_key);
+
+    @GET(API_VERSION + "/movie/{movie_id}/reviews")
+    Call<GetReviewsResponse> getReviews(@Path("movie_id") String movieId, @Query("api_key") String api_key);
 }

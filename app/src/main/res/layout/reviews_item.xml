@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2017 Gonzalo Rodriguez Blanco
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/details_content_margin_top"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/tv_author"
+        android:drawableStart="@drawable/ic_author"
+        android:drawableLeft="@drawable/ic_author"
+        android:drawablePadding="@dimen/drawable_text_view_padding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingRight="@dimen/default_padding"
+        android:paddingLeft="@dimen/default_padding"
+        android:gravity="center_vertical"
+        tools:text="Travis Bell"/>
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_author"
+        android:paddingTop="@dimen/default_margin"
+        android:paddingStart="@dimen/review_item_content_start_padding"
+        android:paddingLeft="@dimen/review_item_content_start_padding"
+        android:paddingEnd="@dimen/default_margin"
+        android:paddingRight="@dimen/default_margin"
+        android:paddingBottom="@dimen/default_margin"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/dividerOnLightBackground"/>
+</RelativeLayout>

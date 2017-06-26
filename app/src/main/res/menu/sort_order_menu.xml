@@ -15,4 +15,9 @@
         android:orderInCategory="2"
         app:showAsAction="ifRoom"
         android:id="@+id/action_top_rated" />
+    <item
+        android:title="@string/favorites"
+        android:orderInCategory="3"
+        app:showAsAction="ifRoom"
+        android:id="@+id/action_favorites" />
 </menu>

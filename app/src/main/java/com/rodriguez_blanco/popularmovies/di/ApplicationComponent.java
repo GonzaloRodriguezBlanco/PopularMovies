@@ -4,13 +4,12 @@
 
 package com.rodriguez_blanco.popularmovies.di;
 
-import android.app.Application;
+import android.content.Context;
 
 import com.rodriguez_blanco.popularmovies.PopularMoviesApplication;
 
 import javax.inject.Singleton;
 
-import dagger.BindsInstance;
 import dagger.Component;
 import dagger.android.AndroidInjectionModule;
 
@@ -24,10 +23,16 @@ import dagger.android.AndroidInjectionModule;
 public interface ApplicationComponent {
     @Component.Builder
     interface Builder {
-        @BindsInstance
-        Builder application(Application application);
+        Builder applicationModule(ApplicationModule applicationModule);
         ApplicationComponent build();
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Exposed to sub-graphs
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // From ApplicationModule
+    Context context();
 
     void inject(PopularMoviesApplication popularMoviesApplication);
 }

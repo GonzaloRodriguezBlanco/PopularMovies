@@ -63,8 +63,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onMovieClicked(String movieId) {
-        Intent intent = DetailsActivity.getCallingIntent(this, movieId);
+    public void onMovieClicked(String movieId, String movieTitle, String posterPath) {
+        Intent intent = DetailsActivity.getCallingIntent(this, movieId, movieTitle, posterPath);
 
         startActivity(intent);
     }

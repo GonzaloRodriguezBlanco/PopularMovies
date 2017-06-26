@@ -4,7 +4,10 @@
     <color name="colorPrimaryDark">@color/materialDesignGrey900</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="dividerOnLightBackground">@color/colorBlackOpacity12</color>
+
     <color name="colorWhiteOpacity100">#FFFFFFFF</color>
+    <color name="colorBlackOpacity12">#1F000000</color>
 
     <!-- Teal -->
     <color name="materialDesignTeal50">#E0F2F1</color><!-- Text contrast color BLACK -->

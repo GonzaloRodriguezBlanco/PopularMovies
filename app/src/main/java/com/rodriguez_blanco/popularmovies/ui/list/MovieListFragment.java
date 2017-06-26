@@ -6,8 +6,12 @@ package com.rodriguez_blanco.popularmovies.ui.list;
 
 import android.arch.lifecycle.LifecycleFragment;
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,9 +26,14 @@ import android.widget.Toast;
 
 import com.rodriguez_blanco.popularmovies.R;
 import com.rodriguez_blanco.popularmovies.api.TheMovieDbWebservice;
+import com.rodriguez_blanco.popularmovies.data.PopularMoviesContract;
+import com.rodriguez_blanco.popularmovies.domain.Movie;
 import com.rodriguez_blanco.popularmovies.util.NetworkUtil;
 import com.rodriguez_blanco.popularmovies.util.ScreenUtil;
 import com.rodriguez_blanco.popularmovies.viewmodel.MovieListViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -33,12 +42,24 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import dagger.android.support.AndroidSupportInjection;
+import timber.log.Timber;
 
 /**
  * Fragment containing a movie poster list
  */
 public class MovieListFragment extends LifecycleFragment implements MovieListAdapter.MovieListAdapterOnClickHandler {
     private static final int DEFAULT_SPAN_COUNT = 2;
+
+    private static final int FAVORITES_LOADER_ID = 0;
+
+    public static final String INSTANCE_STATE_SELECTED_SETTING = "savedSelectedSetting";
+
+    public static final int SELECTED_MOST_POPULAR = 0;
+    public static final int SELECTED_TOP_RATED = 1;
+    public static final int SELECTED_FAVORITES = 3;
+
+    private int mSelectedSetting;
+
     @Inject
     MovieListViewModel mViewModel;
 
@@ -62,7 +83,7 @@ public class MovieListFragment extends LifecycleFragment implements MovieListAda
     private MovieListListener mMovieListListener;
 
     public interface MovieListListener {
-        void onMovieClicked(final String movieId);
+        void onMovieClicked(final String movieId, final String movieTitle, final String posterPath);
     }
 
     public MovieListFragment() {
@@ -110,6 +131,24 @@ public class MovieListFragment extends LifecycleFragment implements MovieListAda
         super.onActivityCreated(savedInstanceState);
         setupRecyclerView();
         loadMovies();
+        if (savedInstanceState != null) {
+            mSelectedSetting = savedInstanceState.getInt(INSTANCE_STATE_SELECTED_SETTING);
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (mSelectedSetting == SELECTED_FAVORITES) {
+            restartFavoritesLoader();
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt(INSTANCE_STATE_SELECTED_SETTING, mSelectedSetting);
     }
 
     private void loadMovies() {
@@ -176,6 +215,7 @@ public class MovieListFragment extends LifecycleFragment implements MovieListAda
         int itemThatWasClickedId = item.getItemId();
         switch (itemThatWasClickedId) {
             case R.id.action_most_popular:
+                mSelectedSetting = SELECTED_MOST_POPULAR;
                 showLoadingIndicator();
                 mViewModel.getPopularMovies();
                 Toast.makeText(getActivity(), "Most popular", Toast.LENGTH_SHORT).show();
@@ -183,11 +223,18 @@ public class MovieListFragment extends LifecycleFragment implements MovieListAda
                 return true;
 
             case R.id.action_top_rated:
+                mSelectedSetting = SELECTED_TOP_RATED;
                 showLoadingIndicator();
                 mViewModel.getTopRatedMovies();
                 Toast.makeText(getActivity(), "Top rated", Toast.LENGTH_SHORT).show();
 
                 return true;
+
+            case R.id.action_favorites:
+                mSelectedSetting = SELECTED_FAVORITES;
+                restartFavoritesLoader();
+                Toast.makeText(getActivity(), "Favorites", Toast.LENGTH_SHORT).show();
+
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -222,9 +269,86 @@ public class MovieListFragment extends LifecycleFragment implements MovieListAda
         mErrorLayout.setVisibility(View.INVISIBLE);
     }
 
+    private void restartFavoritesLoader() {
+//        getActivity().getSupportLoaderManager().initLoader(FAVORITES_LOADER_ID, null, mLoaderCallbacks);
+        getActivity().getSupportLoaderManager().restartLoader(FAVORITES_LOADER_ID, null, mLoaderCallbacks);
+    }
+
+    private LoaderManager.LoaderCallbacks<Cursor> mLoaderCallbacks =
+            new LoaderManager.LoaderCallbacks<Cursor>() {
+
+
+                @Override
+                public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+                    return new AsyncTaskLoader<Cursor>(getContext()) {
+                        Cursor mFavoritesCursor = null;
+
+                        @Override
+                        protected void onStartLoading() {
+                            if (mFavoritesCursor != null) {
+                                // Delivers any previously loaded data immediately
+                                deliverResult(mFavoritesCursor);
+                            } else {
+                                // Force a new load
+                                forceLoad();
+                            }
+                        }
+
+                        @Override
+                        public Cursor loadInBackground() {
+
+                            try {
+                                return getContext().getContentResolver().query(PopularMoviesContract.FavoriteEntry.CONTENT_URI,
+                                        null,
+                                        null,
+                                        null,
+                                        PopularMoviesContract.FavoriteEntry._ID);
+
+                            } catch (Exception e) {
+                                Timber.e("Failed to asynchronously load data.");
+                                e.printStackTrace();
+                                return null;
+                            }
+                        }
+
+                        public void deliverResult(Cursor data) {
+                            mFavoritesCursor = data;
+                            super.deliverResult(data);
+                        }
+                    };
+                }
+
+                @Override
+                public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+                    List<Movie> favoriteMovies = null;
+                    if (data != null) {
+                        favoriteMovies = new ArrayList<>();
+                        while (data.moveToNext()) {
+                            String id = data.getString(data.getColumnIndex(PopularMoviesContract.FavoriteEntry.COLUMN_MOVIE_ID));
+                            String title = data.getString(data.getColumnIndex(PopularMoviesContract.FavoriteEntry.COLUMN_MOVIE_TITLE));
+                            String posterPath = data.getString(data.getColumnIndex(PopularMoviesContract.FavoriteEntry.COLUMN_POSTER_PATH));
+
+                            Movie movie = new Movie();
+                            movie.setId(id);
+                            movie.setTitle(title);
+                            movie.setPosterPath(posterPath);
+
+                            favoriteMovies.add(movie);
+                        }
+                    }
+//                    mViewModel.setFavoritesMovies(favoriteMovies);
+                    mMovieListAdapter.setMoviesData(favoriteMovies);
+                }
+
+                @Override
+                public void onLoaderReset(Loader<Cursor> loader) {
+                    mMovieListAdapter.setMoviesData(null);
+                }
+            };
+
     @Override
-    public void onClick(String movieId) {
-        mMovieListListener.onMovieClicked(movieId);
+    public void onClick(String movieId, String movieTitle, String posterPath) {
+        mMovieListListener.onMovieClicked(movieId, movieTitle, posterPath);
     }
 
 }
