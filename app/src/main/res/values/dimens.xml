@@ -8,4 +8,8 @@
     <dimen name="progress_bar_dimens">42dp</dimen>
     <dimen name="default_margin">16dp</dimen>
     <dimen name="details_content_margin_top">8dp</dimen>
+    <dimen name="drawable_text_view_padding">8dp</dimen>
+    <dimen name="review_item_content_start_padding">56dp</dimen>
+    <dimen name="default_list_item_height">72dp</dimen>
+    <dimen name="default_list_subhead_height">48dp</dimen>
 </resources>

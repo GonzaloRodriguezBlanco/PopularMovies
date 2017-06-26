@@ -4,7 +4,10 @@
 
 package com.rodriguez_blanco.popularmovies.di;
 
+import android.content.Context;
+
 import com.rodriguez_blanco.popularmovies.BuildConfig;
+import com.rodriguez_blanco.popularmovies.PopularMoviesApplication;
 import com.rodriguez_blanco.popularmovies.api.TheMovieDbWebservice;
 
 import javax.inject.Singleton;
@@ -17,7 +20,18 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
-class ApplicationModule {
+public class ApplicationModule {
+    private final PopularMoviesApplication application;
+
+    public ApplicationModule(PopularMoviesApplication application) {
+        this.application = application;
+    }
+
+    @Provides
+    @Singleton
+    Context providesApplicationContext() {
+        return this.application;
+    }
 
     @Singleton
     @Provides
@@ -42,4 +56,5 @@ class ApplicationModule {
                 .build()
                 .create(TheMovieDbWebservice.class);
     }
+
 }

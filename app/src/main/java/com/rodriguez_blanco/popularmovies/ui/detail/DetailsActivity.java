@@ -26,6 +26,8 @@ import dagger.android.support.HasSupportFragmentInjector;
 
 public class DetailsActivity extends AppCompatActivity implements HasSupportFragmentInjector {
     private static final String INTENT_EXTRA_PARAM_MOVIE_ID = "com.rodriguez_blanco.INTENT_PARAM_MOVIE_ID";
+    private static final String INTENT_EXTRA_PARAM_MOVIE_TITLE = "com.rodriguez_blanco.INTENT_PARAM_MOVIE_TITLE";
+    private static final String INTENT_EXTRA_PARAM_POSTER_PATH = "com.rodriguez_blanco.INTENT_PARAM_POSTER_PATH";
 
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentInjector;
@@ -34,9 +36,11 @@ public class DetailsActivity extends AppCompatActivity implements HasSupportFrag
     Toolbar mToolbar;
 
     public static Intent getCallingIntent(Context context,
-                                          String movieId) {
+                                          String movieId, String movieTitle, String posterPath) {
         Intent callingIntent =  new Intent(context, DetailsActivity.class);
         callingIntent.putExtra(INTENT_EXTRA_PARAM_MOVIE_ID, movieId);
+        callingIntent.putExtra(INTENT_EXTRA_PARAM_MOVIE_TITLE, movieTitle);
+        callingIntent.putExtra(INTENT_EXTRA_PARAM_POSTER_PATH, posterPath);
 
         return callingIntent;
     }
@@ -64,8 +68,10 @@ public class DetailsActivity extends AppCompatActivity implements HasSupportFrag
     private void initializeFragment(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             String movieId = getIntent().getStringExtra(INTENT_EXTRA_PARAM_MOVIE_ID);
+            String movieTitle = getIntent().getStringExtra(INTENT_EXTRA_PARAM_MOVIE_TITLE);
+            String posterPath = getIntent().getStringExtra(INTENT_EXTRA_PARAM_POSTER_PATH);
 
-            MovieDetailsFragment movieDetailsFragment = MovieDetailsFragment.forMovie(movieId);
+            MovieDetailsFragment movieDetailsFragment = MovieDetailsFragment.forMovie(movieId, movieTitle, posterPath);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container, movieDetailsFragment)
                     .commit();

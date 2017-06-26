@@ -26,7 +26,7 @@ public class MovieListAdapter
     private MovieListAdapterOnClickHandler mClickHandler;
 
     interface MovieListAdapterOnClickHandler {
-        void onClick(String movieId);
+        void onClick(String movieId, String movieTitle, String posterPath);
     }
 
     public MovieListAdapter(MovieListAdapterOnClickHandler clickHandler) {
@@ -88,8 +88,10 @@ public class MovieListAdapter
 
             Movie movie = mMoviesData.get(adapterPosition);
             String movieId = movie.getId();
+            String movieTitle = movie.getTitle();
+            String posterPath = movie.getPosterPath();
 
-            mClickHandler.onClick(movieId);
+            mClickHandler.onClick(movieId, movieTitle, posterPath);
         }
     }
 }

@@ -27,6 +27,11 @@
         <activity android:name=".ui.detail.DetailsActivity"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <provider
+            android:name="com.rodriguez_blanco.popularmovies.data.PopularMoviesContentProvider"
+            android:authorities="com.rodriguez_blanco.popularmovies"
+            android:exported="false"/>
     </application>
 
 </manifest>

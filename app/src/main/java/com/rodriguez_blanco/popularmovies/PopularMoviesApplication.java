@@ -7,6 +7,7 @@ package com.rodriguez_blanco.popularmovies;
 import android.app.Activity;
 import android.app.Application;
 
+import com.rodriguez_blanco.popularmovies.di.ApplicationModule;
 import com.rodriguez_blanco.popularmovies.di.DaggerApplicationComponent;
 
 import javax.inject.Inject;
@@ -28,7 +29,7 @@ public class PopularMoviesApplication extends Application implements HasActivity
             Timber.plant(new Timber.DebugTree());
         }
         DaggerApplicationComponent.builder()
-                .application(this).build()
+                .applicationModule(new ApplicationModule(this)).build()
                 .inject(this);
     }
 

@@ -2,7 +2,7 @@
 <!--
   ~ Copyright (C) 2017 Gonzalo Rodriguez Blanco
   -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -30,8 +30,9 @@
 
             <ImageView
                 android:id="@+id/iv_movie_poster_thumbnail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:scaleType="fitCenter"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true" />
 
@@ -53,6 +54,17 @@
                 android:layout_toRightOf="@id/iv_movie_poster_thumbnail"
                 style="@style/TextAppearance.AppCompat.Small" />
 
+            <ImageButton
+                android:id="@+id/bt_favorite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_user_rating"
+                android:layout_toRightOf="@id/iv_movie_poster_thumbnail"
+                android:src="@drawable/ic_action_favorite_disable"
+                android:contentDescription="@string/content_description_mark_as_favorite"
+                android:visibility="invisible"
+                style="@style/Widget.AppCompat.Button.Borderless" />
+
             <TextView
                 android:id="@+id/tv_plot_synopsis"
                 android:layout_width="match_parent"
@@ -62,6 +74,38 @@
                 style="@style/TextAppearance.AppCompat.Small" />
 
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_trailers_header"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_list_subhead_height"
+            android:text="@string/trailers_header"
+            android:gravity="center_vertical"
+            android:paddingRight="@dimen/default_padding"
+            android:paddingLeft="@dimen/default_padding"
+            style="@style/Base.TextAppearance.AppCompat.Headline" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview_trailers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingRight="@dimen/default_padding"
+            android:paddingLeft="@dimen/default_padding"/>
+
+        <TextView
+            android:id="@+id/tv_reviews_header"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_list_subhead_height"
+            android:text="@string/reviews_header"
+            android:gravity="center_vertical"
+            android:paddingRight="@dimen/default_padding"
+            android:paddingLeft="@dimen/default_padding"
+            style="@style/Base.TextAppearance.AppCompat.Headline" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview_reviews"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <ProgressBar
             android:id="@+id/pb_loading_indicator"
@@ -92,4 +136,4 @@
         </LinearLayout>
 
     </LinearLayout>
-</ScrollView>
+</android.support.v4.widget.NestedScrollView>

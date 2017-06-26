@@ -37,4 +37,10 @@ public interface TheMovieDbWebservice {
 
     @GET(API_VERSION + "/movie/{movie_id}")
     Call<Movie> getDetails(@Path("movie_id") String movieId, @Query("api_key") String api_key);
+
+    @GET(API_VERSION + "/movie/{movie_id}/videos")
+    Call<GetVideosResponse> getVideos(@Path("movie_id") String movieId, @Query("api_key") String api_key);
+
+    @GET(API_VERSION + "/movie/{movie_id}/reviews")
+    Call<GetReviewsResponse> getReviews(@Path("movie_id") String movieId, @Query("api_key") String api_key);
 }

@@ -10,4 +10,8 @@
     <string name="top_rated">Top Rated</string>
     <string name="error_message_unknown_error">Something has happen. Try again.</string>
     <string name="movie_details">Movie Details</string>
+    <string name="content_description_mark_as_favorite">Mark as favorite</string>
+    <string name="trailers_header">Trailers</string>
+    <string name="reviews_header">Reviews</string>
+    <string name="favorites">Favorites</string>
 </resources>
